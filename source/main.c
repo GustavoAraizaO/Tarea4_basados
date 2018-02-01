@@ -72,6 +72,16 @@ int main(void) {
 	PORT_SetPinConfig(PORTE, 26, &config_led); //LED_GREEN
 	PORT_SetPinConfig(PORTB, 22, &config_led); //LED_RED
 
+	port_pin_config_t config_switch =
+	{ kPORT_PullDisable, kPORT_SlowSlewRate, kPORT_PassiveFilterDisable,
+			kPORT_OpenDrainDisable, kPORT_LowDriveStrength, kPORT_MuxAsGpio,
+			kPORT_UnlockRegister};
+
+	PORT_SetPinInterruptConfig(PORTA, 4, kPORT_InterruptFallingEdge);  //SW3
+	PORT_SetPinInterruptConfig(PORTC, 6, kPORT_InterruptFallingEdge);  //SW2
+	PORT_SetPinConfig(PORTA, 4, &config_switch);
+	PORT_SetPinConfig(PORTC, 6, &config_switch);
+
 
 	/* Force the counter to be placed into memory. */
 	volatile static int i = 0 ;
