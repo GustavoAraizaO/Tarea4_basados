@@ -48,6 +48,25 @@
 /*
  * @brief   Application entry point.
  */
+
+void PORTA_IRQHandler()
+{
+	static uint8_t state = 0;
+	PORT_ClearPinsInterruptFlags(PORTA, 1<<4);
+
+//	GPIO_WritePinOutput(GPIOB,21,state);
+//	state = ( 0 == state ) ? 1 : 0;
+}
+
+void PORTC_IRQHandler()
+{
+	static uint8_t state = 0;
+	PORT_ClearPinsInterruptFlags(PORTC, 1<<4);
+
+//	GPIO_WritePinOutput(GPIOB,21,state);
+//	state = ( 0 == state ) ? 1 : 0;
+}
+
 int main(void) {
 
 	/* Init board hardware. */
