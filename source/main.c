@@ -27,7 +27,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
- 
+
 /**
  * @file    Tarea4.c
  * @brief   Application entry point.
@@ -39,6 +39,8 @@
 #include "clock_config.h"
 #include "MK64F12.h"
 #include "fsl_debug_console.h"
+#include "fsl_port.h"
+#include "fsl_gpio.h"
 /* TODO: insert other include files here. */
 
 /* TODO: insert other definitions and declarations here. */
@@ -48,25 +50,34 @@
  */
 int main(void) {
 
-  	/* Init board hardware. */
-    BOARD_InitBootPins();
-    BOARD_InitBootClocks();
-    BOARD_InitBootPeripherals();
-  	/* Init FSL debug console. */
-    BOARD_InitDebugConsole();
+	/* Init board hardware. */
+	BOARD_InitBootPins();
+	BOARD_InitBootClocks();
+	BOARD_InitBootPeripherals();
+	/* Init FSL debug console. */
+	BOARD_InitDebugConsole();
 
-    CLOCK_EnableClock(kCLOCK_PortA);
-    CLOCK_EnableClock(kCLOCK_PortB);
-    CLOCK_EnableClock(kCLOCK_PortC);
-    CLOCK_EnableClock(kCLOCK_PortD);
-    CLOCK_EnableClock(kCLOCK_PortE);
+	CLOCK_EnableClock(kCLOCK_PortA);
+	CLOCK_EnableClock(kCLOCK_PortB);
+	CLOCK_EnableClock(kCLOCK_PortC);
+	CLOCK_EnableClock(kCLOCK_PortD);
+	CLOCK_EnableClock(kCLOCK_PortE);
+
+	port_pin_config_t config_led =
+	{ kPORT_PullDisable, kPORT_SlowSlewRate, kPORT_PassiveFilterDisable,
+			kPORT_OpenDrainDisable, kPORT_LowDriveStrength, kPORT_MuxAsGpio,
+			kPORT_UnlockRegister, };
+
+	PORT_SetPinConfig(PORTB, 21, &config_led); //LED_BLUE
+	PORT_SetPinConfig(PORTE, 26, &config_led); //LED_GREEN
+	PORT_SetPinConfig(PORTB, 22, &config_led); //LED_RED
 
 
-    /* Force the counter to be placed into memory. */
-    volatile static int i = 0 ;
-    /* Enter an infinite loop, just incrementing a counter. */
-    while(1) {
-        i++ ;
-    }
-    return 0 ;
+	/* Force the counter to be placed into memory. */
+	volatile static int i = 0 ;
+	/* Enter an infinite loop, just incrementing a counter. */
+	while(1) {
+		i++ ;
+	}
+	return 0 ;
 }
